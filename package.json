@@ -1,9 +1,9 @@
 {
   "name": "aime",
-  "version": "1.0.0",
-  "description": "An Electron application with React and TypeScript",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "version": "0.0.0",
+  "description": "The AI Assistant & MCP Client",
+  "author": "litingyes",
+  "homepage": "https://aimcp.netlify.app/",
   "main": "./out/main/index.js",
   "scripts": {
     "lint": "eslint .",
