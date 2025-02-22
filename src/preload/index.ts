@@ -1,5 +1,5 @@
-import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { contextBridge } from 'electron'
 
 // Custom APIs for renderer
 const api = {}
@@ -11,12 +11,15 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
-  } catch (error) {
+  }
+  catch (error) {
     console.error(error)
   }
-} else {
-  // @ts-ignore (define in dts)
+}
+else {
+  // @ts-expect-error electron
   window.electron = electronAPI
-  // @ts-ignore (define in dts)
+
+  // @ts-expect-error api
   window.api = api
 }
