@@ -1,7 +1,12 @@
 {
+  "compilerOptions": {
+    "paths": {
+      // for shadcn/ui cli
+      "@renderer/*": ["./src/renderer/src/*"]
+    }
+  },
   "references": [
     { "path": "./tsconfig.node.json" },
     { "path": "./tsconfig.web.json" }
-  ],
-  "files": []
+  ]
 }

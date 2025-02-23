@@ -24,18 +24,23 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^4.0.0",
+    "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@tailwindcss/vite": "^4.0.7",
     "electron-updater": "^6.3.9",
+    "lucide-react": "^0.475.0",
     "tailwindcss": "^4.0.7"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.3.0",
     "@electron-toolkit/tsconfig": "^1.0.1",
     "@eslint-react/eslint-plugin": "^1.27.0",
+    "@iconify/json": "^2.2.309",
+    "@iconify/tailwind": "^1.2.0",
     "@types/node": "^22.13.4",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
+    "clsx": "^2.1.1",
     "electron": "^34.2.0",
     "electron-builder": "^25.1.8",
     "electron-vite": "^3.0.0",
@@ -43,6 +48,8 @@
     "eslint-plugin-format": "^1.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.0.2",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.7.3",
     "vite": "^6.1.0"
   },
