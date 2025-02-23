@@ -1,6 +1,13 @@
+import Header from '@renderer/components/Header'
+
 function App(): JSX.Element {
   return (
-    <div>aime</div>
+    <div>
+      <Header />
+      <main>
+        <div>body</div>
+      </main>
+    </div>
   )
 }
 

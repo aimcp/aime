@@ -1,7 +1,9 @@
+import type { AiConfig } from '../types'
 import { join } from 'node:path'
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
-import { app, BrowserWindow, shell } from 'electron'
+import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import icon from '../../resources/icon.png?asset'
+import { getAiconfig, updateAiModel } from './config'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -45,6 +47,9 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
+
+  ipcMain.handle('getAiconfig', getAiconfig)
+  ipcMain.handle('updateAiModel', (_, model: AiConfig['models'][0]) => updateAiModel(model))
 
   createWindow()
 
