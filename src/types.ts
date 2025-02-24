@@ -1,6 +1,9 @@
+export interface AiConfigModel {
+  provider: 'deepseek'
+  apiKey: string
+}
+
 export interface AiConfig {
-  models: Array<{
-    provider: 'deepseek'
-    apiKey: string
-  }>
+  activeProvider: AiConfigModel['provider']
+  models: AiConfigModel[]
 }

@@ -1,8 +1,9 @@
-import type { AiConfig } from '../../../types'
+import type { AiConfig, AiConfigModel } from '../../../types'
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 export function useAiConfig() {
   const [aiConfig, setAiConfig] = useState<AiConfig>()
+  const [activeProvider, setActiveProvider] = useState<AiConfigModel['provider']>('deepseek')
 
   const isDirty = useRef(true)
   useEffect(() => {
@@ -12,6 +13,7 @@ export function useAiConfig() {
 
     window.electronAPI.getAiconfig().then((config) => {
       setAiConfig(config)
+      setActiveProvider(config.activeProvider)
       isDirty.current = false
     })
   }, [isDirty])
@@ -26,6 +28,8 @@ export function useAiConfig() {
 
   return {
     aiConfig,
+    activeProvider,
+
     models,
     updateAiModel,
   }

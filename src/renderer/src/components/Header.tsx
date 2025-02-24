@@ -13,17 +13,21 @@ import { z } from 'zod'
 export default function Header() {
   const [isOpenAiConfigForm, setIsOpenAiConfigForm] = useState(false)
 
-  const { models, updateAiModel } = useAiConfig()
+  const { activeProvider, models, updateAiModel } = useAiConfig()
   const aiModelSchema = z.object({
     provider: z.enum(['deepseek']),
     apiKey: z.string().nonempty('API key cannot by empty'),
   })
   const aiModelForm = useForm<z.infer<typeof aiModelSchema>>({
     resolver: zodResolver(aiModelSchema),
-    defaultValues: models[0],
+    defaultValues: {
+      provider: activeProvider,
+      apiKey: models.find(model => model.provider === activeProvider)?.apiKey,
+    },
   })
   const onOpenAiConfigForm = () => {
-    aiModelForm.reset()
+    aiModelForm.setValue('provider', activeProvider)
+    aiModelForm.setValue('apiKey', models.find(model => model.provider === activeProvider)?.apiKey ?? '')
     setIsOpenAiConfigForm(true)
   }
   const onProviderChange = (value: z.infer<typeof aiModelSchema>['provider']) => {
