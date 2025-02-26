@@ -15,8 +15,12 @@ export function getAiconfig() {
   let fileData = destr<AiConfig>(data)
   if (typeof fileData === 'string') {
     fileData = {
+      activeProvider: 'deepseek',
       models: [],
     }
+  }
+  if (!fileData.activeProvider && fileData.models.length) {
+    fileData.activeProvider = fileData.models[0].provider
   }
 
   return fileData
@@ -24,18 +28,15 @@ export function getAiconfig() {
 export async function updateAiModel(model: AiConfig['models'][0]) {
   const config = getAiconfig()
 
-  if (!model.apiKey) {
-    config.models = config.models.filter(item => item.provider !== model.provider)
+  const oldModel = config.models.find(item => item.provider === model.provider)
+  if (oldModel) {
+    oldModel.apiKey = model.apiKey
   }
   else {
-    const oldModel = config.models.find(item => item.provider === model.provider)
-    if (oldModel) {
-      oldModel.apiKey = model.apiKey
-    }
-    else {
-      config.models.push(model)
-    }
+    config.models.push(model)
   }
+
+  config.activeProvider = model.provider
 
   return writeJson(aiConfigPath, config, {
     spaces: 2,

@@ -4,6 +4,7 @@ import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { app, BrowserWindow, ipcMain, shell } from 'electron'
 import icon from '../../resources/icon.png?asset'
 import { getAiconfig, updateAiModel } from './config'
+import { ServerRoutes } from './server'
 
 function createWindow(): void {
   const mainWindow = new BrowserWindow({
@@ -37,7 +38,11 @@ function createWindow(): void {
   }
 }
 
+let server: ServerRoutes | undefined
+
 app.whenReady().then(() => {
+  server = new ServerRoutes()
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -50,6 +55,8 @@ app.whenReady().then(() => {
 
   ipcMain.handle('getAiconfig', getAiconfig)
   ipcMain.handle('updateAiModel', (_, model: AiConfig['models'][0]) => updateAiModel(model))
+
+  ipcMain.handle('getServerUrl', () => server?.getServerUrl())
 
   createWindow()
 
@@ -68,4 +75,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+
+  server?.close()
 })

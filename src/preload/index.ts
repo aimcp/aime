@@ -4,6 +4,7 @@ import { contextBridge, ipcRenderer } from 'electron'
 const electronAPI = {
   getAiconfig: () => ipcRenderer.invoke('getAiconfig'),
   updateAiModel: (model: AiConfig['models'][0]) => ipcRenderer.invoke('updateAiModel', model),
+  getServerUrl: () => ipcRenderer.invoke('getServerUrl'),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
