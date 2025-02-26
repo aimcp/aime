@@ -1,7 +1,7 @@
 import type { ServerType } from '@hono/node-server'
 import { createDeepSeek } from '@ai-sdk/deepseek'
 import { serve } from '@hono/node-server'
-import { streamText } from 'ai'
+import { extractReasoningMiddleware, streamText, wrapLanguageModel } from 'ai'
 import { getRandomPort } from 'get-port-please'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
@@ -24,17 +24,24 @@ export class ServerRoutes {
         const aiConfig = getAiconfig()
         const apiKey = aiConfig.models?.find(item => item.provider === 'deepseek')?.apiKey
 
-        console.log('apiKey',apiKey)
         const { messages } = await c.req.json()
 
-        const result = streamText({
-          model: createDeepSeek({
+        const model = wrapLanguageModel({
+          model:createDeepSeek({
             baseURL:'https://api.scnet.cn/api/llm/v1',
             apiKey,
           })('DeepSeek-R1-Distill-Qwen-32B'),
+          middleware: extractReasoningMiddleware({
+            tagName: 'think',
+            startWithReasoning:true
+          })
+        })
+
+        const result = streamText({
+          model,
           system: 'You are a helpful assistant.',
           messages,
-          temperature:0.6
+          temperature:0.6,
         })
 
         c.header('Content-Type', 'text/plain; charset=utf-8')
